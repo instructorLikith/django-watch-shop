@@ -1,5 +1,6 @@
-from django.shortcuts import render 
+from django.shortcuts import render , redirect
 from .models import Watches
+from .forms import UploadForm       
 
 # Create your views here.
 def Home(request):
@@ -9,3 +10,16 @@ def Home(request):
 
 def About(request):
     return render(request, 'about.html')
+
+
+def Upload(request):
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = UploadForm()
+        
+
+    return render(request,'WatchUpload.html', {'form': form})
