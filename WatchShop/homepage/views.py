@@ -1,11 +1,11 @@
 from django.shortcuts import render , redirect
-from .models import Watches
+from .models import Watches, WatchesUploads
 from .forms import UploadForm 
 from django.contrib.auth.decorators import login_required      
 
 # Create your views here.
 def Home(request):
-    watches = Watches.objects.all()
+    watches = WatchesUploads.objects.all()
     context = {'watches_t': watches}
     return render(request, 'home.html', context)
 
@@ -67,5 +67,11 @@ def signup_user(request):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+from django.shortcuts import get_object_or_404
+def show_product(request, id):
+    product = get_object_or_404(WatchesUploads, id=id)
+    return render(request, "product.html",{"product": product} )
 
 

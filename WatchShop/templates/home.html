@@ -47,7 +47,7 @@ margin: 10px;">
         {% for w_item in watches_t %}
         <div class="col"></div>
             <div class="card" style="width: 18rem">
-                <img class="card-img-top" src="..." alt="Card image cap" />
+                <img class="card-img-top" src="{{w_item.image.url}}" alt="Card image cap" />
                 <div class="card-body">
                   <h5 class="card-title">{{w_item.name}}</h5>
                   <p class="card-text">
@@ -56,7 +56,7 @@ margin: 10px;">
                   <p class="card-text">
                     {{w_item.price}}
                   </p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <a href="{% url 'product' id=w_item.id %}" class="btn btn-primary">View Product</a>
                 </div>
               </div>
               {% endfor %}
