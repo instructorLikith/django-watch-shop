@@ -12,6 +12,7 @@
       <h2>{{item.name}}</h2>
       <h3>Amount: Rs {{item.price}}</h3>
       <p>{{item.description}}</p>
+
       <a href="{% url 'removewish' id=item.id %}" class="btn btn-primary"
         >Remove</a
       >

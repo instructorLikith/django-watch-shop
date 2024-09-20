@@ -46,6 +46,10 @@
         max-width: 100%;
         height: 100%;
       }
+
+      .c-button {
+        margin: 5px;
+      }
     </style>
   </head>
   <body>
@@ -77,6 +81,9 @@
 
           <a class="nav-link" href="{% url 'show_wishlist' %}"
             ><span class="material-symbols-outlined"> favorite </span></a
+          >
+          <a class="nav-link" href="{% url 'show_cart' %}"
+            ><span class="material-symbols-outlined"> shopping_cart </span></a
           >
           <li class="nav-item dropdown">
             <a

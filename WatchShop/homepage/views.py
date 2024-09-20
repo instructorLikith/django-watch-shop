@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect
-from .models import Watches, WatchesUploads, Wishlist, Cart
+from .models import Watches, WatchesUploads, Wishlist, Cart, WatchReview, CartItem
 from .forms import UploadForm 
 from django.contrib.auth.decorators import login_required      
 
@@ -72,7 +72,8 @@ def logout_user(request):
 from django.shortcuts import get_object_or_404
 def show_product(request, id):
     product = get_object_or_404(WatchesUploads, id=id)
-    return render(request, "product.html",{"product": product} )
+    review = WatchReview.objects.filter(product=product)
+    return render(request, "product.html",{"product": product, "reviews": review} )
 
 #Wishlist
 def addtowish(request, id):
@@ -86,11 +87,39 @@ def addtowish(request, id):
 def show_wishlist(request):
     user = request.user
     wish_object = Wishlist.objects.get(user=user)
-    return render(request, "wishcart.html", {"user_products": wish_object.products.all()})
+    return render(request, "wishlist.html", {"user_products": wish_object.products.all()})
 
 def removewish(request, id):
     product_rm = WatchesUploads.objects.get(id=id)
     wish_obj = Wishlist.objects.get(user=request.user)
     wish_obj.products.remove(product_rm)
-    return render(request, 'wishcart.html', {"user_products": wish_obj.products.all()})
+    return render(request, 'wishlist.html', {"user_products": wish_obj.products.all()})
+
+
+#Cart
+
+def addtocart(request, id):
+    #check if user has cart or not
+    user_cart, created = Cart.objects.get_or_create(user = request.user)
+
+    #fetch the product with given id
+    product = WatchesUploads.objects.get(id=id)
+
+    #create a cart item using the product and user
+    cart_item, created = CartItem.objects.get_or_create(user = user_cart, product= product )
+    cart_item.product= product
+    cart_item.save()
+
+    return redirect('home')
+
+def show_cart(request):
+    user_cart, created = Cart.objects.get_or_create(user = request.user)
+    cart_objects = user_cart.cartitem_set.all()
+    return render(request, "cart.html", {"user_products": cart_objects})
+
+def removeCart(request, id):
+    product_rm = WatchesUploads.objects.get(id=id)
+    cart_obj = Cart.objects.get(user=request.user)
+    cart_obj.products.remove(product_rm)
+    return render(request, 'cart.html', {"user_products": cart_obj.products.all()})
     

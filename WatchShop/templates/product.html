@@ -14,5 +14,12 @@
       <p>{{product.description}}</p>
     </div>
   </div>
+  {% for review in reviews %}
+  <div class="card">
+    <h2>{{review.user.username}}</h2>
+    <h3>Rating: {{review.rating}}</h3>
+    <p>{{review.review_text}}</p>
+  </div>
+  {% endfor %}
 </div>
 {% endblock%}
