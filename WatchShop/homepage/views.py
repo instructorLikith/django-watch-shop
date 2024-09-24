@@ -145,3 +145,15 @@ def removeCart(request, id):
     cart_obj.products.remove(product_rm)
     return render(request, 'cart.html', {"user_products": cart_obj.products.all()})
     
+from django.http import JsonResponse
+def show_data(request):
+    start_text = request.GET.get('param1')
+    watches = list(WatchesUploads.objects.filter(name__startswith=start_text).values_list())
+
+    message = {
+               'name': 'Hello Jitin',
+               'watches': watches
+               }
+    
+
+    return JsonResponse(message)
